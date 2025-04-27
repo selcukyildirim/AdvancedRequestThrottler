@@ -1,0 +1,11 @@
+/Users/selcukmustafayildirim/project/RequestThrottler/obj/Debug/net9.0/RequestThrottler.GeneratedMSBuildEditorConfig.editorconfig
+/Users/selcukmustafayildirim/project/RequestThrottler/obj/Debug/net9.0/RequestThrottler.AssemblyInfoInputs.cache
+/Users/selcukmustafayildirim/project/RequestThrottler/obj/Debug/net9.0/RequestThrottler.AssemblyInfo.cs
+/Users/selcukmustafayildirim/project/RequestThrottler/obj/Debug/net9.0/RequestThrottler.csproj.CoreCompileInputs.cache
+/Users/selcukmustafayildirim/project/RequestThrottler/bin/Debug/net9.0/RequestThrottler.deps.json
+/Users/selcukmustafayildirim/project/RequestThrottler/bin/Debug/net9.0/RequestThrottler.dll
+/Users/selcukmustafayildirim/project/RequestThrottler/bin/Debug/net9.0/RequestThrottler.pdb
+/Users/selcukmustafayildirim/project/RequestThrottler/obj/Debug/net9.0/RequestThrottler.dll
+/Users/selcukmustafayildirim/project/RequestThrottler/obj/Debug/net9.0/refint/RequestThrottler.dll
+/Users/selcukmustafayildirim/project/RequestThrottler/obj/Debug/net9.0/RequestThrottler.pdb
+/Users/selcukmustafayildirim/project/RequestThrottler/obj/Debug/net9.0/ref/RequestThrottler.dll
