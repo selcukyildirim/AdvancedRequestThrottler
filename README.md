@@ -3,7 +3,13 @@
 [![NuGet](https://img.shields.io/nuget/v/RequestThrottler.svg)](https://www.nuget.org/packages/RequestThrottler)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-ASP.NET Core uygulamaları için sade ve güçlü bir request throttling (istek kısıtlama) kütüphanesi.
+Initial commit: Add basic request throttling library for ASP.NET Core
+
+- Global rate limiting middleware
+- Attribute-based throttling for controllers/actions
+- In-memory queue management
+- HTTP Client throttling support
+- Example configuration and usage in README
 
 ## Özellikler
 
