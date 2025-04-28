@@ -1,0 +1,42 @@
+# Build sonuçlarını ignore et (.NET projeleri için)
+bin/
+obj/
+
+# Rider (JetBrains) klasörleri
+.idea/
+
+# VS Code ayar dosyaları
+.vscode/
+
+# Kullanıcı bazlı VS ayarları
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# NuGet paket klasörleri
+*.nupkg
+packages/
+*.snupkg
+
+# Log dosyaları
+*.log
+
+# Çöp / geçici dosyalar
+*.tmp
+*.temp
+*.bak
+
+# OS Bazlı dosyalar
+.DS_Store
+Thumbs.db
+
+# Test sonuçları
+TestResult*/
+*.TestResults/
+
+# Publish çıktıları
+publish/
+
+# Dotnet tool local ayar dosyası
+.dotnet-tools.json
