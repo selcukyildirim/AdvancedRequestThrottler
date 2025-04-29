@@ -4,7 +4,17 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <OutputType>Library</OutputType> 
+    <OutputType>Library</OutputType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild> 
+    <PackageId>AdvancedRequestThrottler</PackageId>
+    <Version>1.0.0</Version> 
+    <Authors>Selcuk Yildirim</Authors>
+    <Company>Selcuk Yildirim</Company> 
+    <Description>AdvancedRequestThrottler is a .NET library for managing request throttling and queueing with advanced rate limiting algorithms.</Description> <!-- Paket açıklaması -->
+    <PackageTags>throttling, rate-limiting, queue, .NET</PackageTags> <!-- Paket etiketleri -->
+    <RepositoryUrl>https://github.com/selcukyildirim/RequestThrottler</RepositoryUrl> <!-- Repo URL'si -->
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Copyright © 2025 Selcuk Yildirim</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
