@@ -1,56 +1,82 @@
 using RequestThrottler.Core;
 using RequestThrottler.Services;
 using System;
-using System.Threading.Tasks;
+using System.Threading;
 
-namespace RequestThrottler.Services
+public class DefaultRequestThrottler : IRequestThrottler
 {
-    public class DefaultRequestThrottler : IRequestThrottler
+    private readonly IInMemoryThrottleQueue _queue;
+
+    public DefaultRequestThrottler(IInMemoryThrottleQueue queue)
     {
-        private readonly IInMemoryThrottleQueue _queue;
+        _queue = queue ?? throw new ArgumentNullException(nameof(queue));
+    }
 
-        public DefaultRequestThrottler(IInMemoryThrottleQueue queue)
-        {
-            _queue = queue ?? throw new ArgumentNullException(nameof(queue));
-        }
+    public async Task ExecuteAsync(Func<Task> action, TimeSpan timeout)
+    {
+        if (action == null) throw new ArgumentNullException(nameof(action));
+        if (timeout == TimeSpan.Zero) throw new ArgumentException("Timeout cannot be zero.", nameof(timeout));
 
-        public Task ExecuteAsync(Func<Task> action)
+        var cts = new CancellationTokenSource();
+        var timeoutTask = Task.Delay(timeout, cts.Token);
+
+        try
         {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-            // TCS ile, action tamamlanana dek bekleyeceğiz
-            var tcs = new TaskCompletionSource();
-            _queue.EnqueueAsync(async () =>
+            var actionTask = Task.Run(async () =>
             {
-                try
+                await _queue.EnqueueAsync(async () =>
                 {
                     await action();
-                    tcs.SetResult();
-                }
-                catch (Exception ex)
-                {
-                    tcs.SetException(ex);
-                }
+                });
             });
-            return tcs.Task;
-        }
 
-        public Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> action)
-        {
-            if (action == null) throw new ArgumentNullException(nameof(action));
-            var tcs = new TaskCompletionSource<TResult>();
-            _queue.EnqueueAsync(async () =>
+            var completedTask = await Task.WhenAny(actionTask, timeoutTask);
+
+            if (completedTask == timeoutTask)
             {
-                try
+                throw new TimeoutException("The action did not complete within the allotted time.");
+            }
+
+            cts.Cancel(); // Cancel timeout if action completes
+            await actionTask; // Await the action to propagate exceptions
+        }
+        finally
+        {
+            cts.Dispose();
+        }
+    }
+
+    public async Task<TResult> ExecuteAsync<TResult>(Func<Task<TResult>> action, TimeSpan timeout)
+    {
+        if (action == null) throw new ArgumentNullException(nameof(action));
+        if (timeout == TimeSpan.Zero) throw new ArgumentException("Timeout cannot be zero.", nameof(timeout));
+
+        var cts = new CancellationTokenSource();
+        var timeoutTask = Task.Delay(timeout, cts.Token);
+
+        try
+        {
+            var actionTask = Task.Run(async () =>
+            {
+                return await _queue.EnqueueAsync(async () =>
                 {
-                    var res = await action();
-                    tcs.SetResult(res);
-                }
-                catch (Exception ex)
-                {
-                    tcs.SetException(ex);
-                }
+                    return await action();
+                });
             });
-            return tcs.Task;
+
+            var completedTask = await Task.WhenAny(actionTask, timeoutTask);
+
+            if (completedTask == timeoutTask)
+            {
+                throw new TimeoutException("The action did not complete within the allotted time.");
+            }
+
+            cts.Cancel(); // Cancel timeout if action completes
+            return await actionTask; // Await the action to propagate exceptions
+        }
+        finally
+        {
+            cts.Dispose();
         }
     }
 }
