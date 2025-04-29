@@ -1,6 +1,6 @@
-# RequestThrottler
+# AdvancedRequestThrottler
 
-**RequestThrottler**, .NET uygulamalarında istek hızını sınırlamak ve yönetmek için geliştirilmiş bir kütüphanelidir. Hız sınırlandırma algoritmaları ve kuyruklama sistemi ile API trafiğini kontrol etmeyi kolaylaştırır.
+**AdvancedRequestThrottler**, .NET uygulamalarında istek hızını sınırlamak ve yönetmek için geliştirilmiş bir kütüphanelidir. Hız sınırlandırma algoritmaları ve kuyruklama sistemi ile API trafiğini kontrol etmeyi kolaylaştırır.
 
 ---
 
@@ -114,9 +114,9 @@ Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
 
 ---
 
-# RequestThrottler (EN)
+# AdvancedRequestThrottler (EN)
 
-RequestThrottler is a .NET library designed to manage and limit request rates within applications. It simplifies API traffic control with rate-limiting mechanisms and a queueing system.
+AdvancedRequestThrottler is a .NET library designed to manage and limit request rates within applications. It simplifies API traffic control with rate-limiting mechanisms and a queueing system.
 
 ---
 
