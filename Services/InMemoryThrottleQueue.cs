@@ -9,16 +9,30 @@ namespace RequestThrottler.Services
         private readonly Channel<ThrottledRequest> _channel;
         private readonly IRateLimiter _rateLimiter;
 
-        public InMemoryThrottleQueue(IRateLimiter rateLimiter)
+        public InMemoryThrottleQueue(IRateLimiter rateLimiter, int queueCapacity = 100)
         {
             _rateLimiter = rateLimiter ?? throw new ArgumentNullException(nameof(rateLimiter));
-            _channel = Channel.CreateUnbounded<ThrottledRequest>();
+
+            var options = new BoundedChannelOptions(queueCapacity)
+            {
+                FullMode = BoundedChannelFullMode.Wait // Kuyruk dolduğunda bekleme modunda olacak
+            };
+
+            _channel = Channel.CreateBounded<ThrottledRequest>(options);
         }
 
-        public async Task EnqueueAsync(Func<Task> action)
+        public async Task EnqueueAsync(Func<Task> action, CancellationToken cancellationToken = default)
         {
             if (action == null) throw new ArgumentNullException(nameof(action));
-            await _channel.Writer.WriteAsync(new ThrottledRequest(action));
+
+            try
+            {
+                await _channel.Writer.WriteAsync(new ThrottledRequest(action), cancellationToken);
+            }
+            catch (ChannelClosedException)
+            {
+                throw new InvalidOperationException("Queue is closed and cannot accept new items.");
+            }
         }
 
         public async Task<Func<Task>> DequeueAsync(CancellationToken cancellationToken)
